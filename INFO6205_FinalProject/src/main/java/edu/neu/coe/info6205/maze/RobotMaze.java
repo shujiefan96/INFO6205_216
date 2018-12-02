@@ -6,17 +6,24 @@
 package edu.neu.coe.info6205.maze;
 
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javafx.stage.Screen;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import javax.swing.*;
 
 
 /**
  *
- * @author Siul
+ * @author fanshujie
  */
 public class RobotMaze extends javax.swing.JFrame {
-    
     Container c = getContentPane();
     JTextField[] point = new JTextField[81];
     int[][] m = new int[][] { 
@@ -31,37 +38,44 @@ public class RobotMaze extends javax.swing.JFrame {
                 { 1, 3, 3, 3, 3, 1, 1, 1, 4 } 
         };
 
+    
+    
+        
+    HashMap<Integer, ArrayList<int[]>> map;
+    int generation = 1;
+
     public RobotMaze() {
         initComponents();
-        paint();
-                      
+        paint();                              
     }
     
     public void paint(){
-        int posx, posy;
-        
+        int posx, posy;       
         posy = 10;
         
-        for(int i=0; i<9; i++){
-            
-            posx = 200;
+        for(int i=0; i<9; i++){            
+            posx = 300;
 
             for(int j=0; j<9; j++){
                 point[(9*i)+j] = new JTextField();
                 point[(9*i)+j].setText("");
+                point[(9*i)+j].setEditable(false);
                 point[(9*i)+j].setHorizontalAlignment(JTextField.CENTER);
                 
                 
                 point[(9*i)+j].setBounds(posx, posy, 30, 30);
 
                 c.add(point[(9*i)+j]);
-                posx += 20;
+                posx += 22;
             }
-            posy += 20;
+            posy += 22;
             
         }
         
-        
+        paintColor();
+    }
+    
+    public void paintColor(){
         int z = 0;
         for(int[] a : m){
             for(int i : a){
@@ -92,51 +106,128 @@ public class RobotMaze extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        geneJtext = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        statusJtext = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Resolver");
+        jButton1.setText("Go");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        geneJtext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                geneJtextActionPerformed(evt);
+            }
+        });
+        geneJtext.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                geneJtextKeyTyped(evt);
+            }
+        });
+
+        jLabel1.setText("MaxGeneration:");
+
+        statusJtext.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(694, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(geneJtext, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton1)
+                    .addComponent(statusJtext, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(613, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(780, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1)
+                .addGap(30, 30, 30)
+                .addComponent(geneJtext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jButton1)
+                .addGap(47, 47, 47)
+                .addComponent(statusJtext, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(552, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RobotController rc = new RobotController(1000);
-        HashMap<Integer, ArrayList<int[]>> map = rc.route(m);
-        System.out.println("size:" + map.size());
-        for(int i = 1; i < rc.maxGenerations; i++){
-            paint();
-            revalidate();
-            for(int[] po : map.get(i)){
-                point[9*po[1] + po[0]].setBackground(java.awt.Color.red);
-            }
-            
+        // TODO add your handling code here:
+        if(geneJtext.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Input can not be null!"); 
+            return;
         }
-    
+        String ge = geneJtext.getText();
+        if(!validation(ge)){
+            return;
+        }
+        generation = Integer.valueOf(ge);
+        RobotController rc = new RobotController(generation);
+        map = rc.route(m);
+        System.out.println("size:" + map.size());
+        
+        statusJtext.setText("Start Animation");
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {                
+                try {
+                    for(int i = 1; i < map.size(); i++){
+                        paintColor();
+                        for(int[] po : map.get(i)){
+                            point[9*po[1] + po[0]].setBackground(java.awt.Color.red);
+                        }
+                        System.out.println("Generation: " + i);
+                        Thread.sleep(50);                        
+                    }
+                                        
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                } finally{
+                    statusJtext.setText("Complete Animation");
+                    System.out.println("Complete");
+                }
+                
+            }
+        }).start();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void geneJtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geneJtextActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_geneJtextActionPerformed
+
+    private void geneJtextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_geneJtextKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_geneJtextKeyTyped
+
+    
+    private boolean validation(String gene){
+        Pattern p1 = Pattern.compile("^[0-9]+$");
+        Matcher m1 = p1.matcher(gene);
+        boolean flag = m1.matches();
+        if(!flag){
+            JOptionPane.showMessageDialog(null, "Generations can only be integers!");
+        }        
+        return flag;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -150,6 +241,9 @@ public class RobotMaze extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField geneJtext;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField statusJtext;
     // End of variables declaration//GEN-END:variables
 }
