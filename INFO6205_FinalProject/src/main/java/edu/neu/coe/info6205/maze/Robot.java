@@ -38,6 +38,8 @@ public class Robot {
      * @param maze The maze the robot will use
      * @param maxMoves The maximum number of moves the robot can make
      */
+    
+   
     public Robot(int[] sensorActions, Maze maze, int maxMoves){//128
         this.sensorActions = this.calcSensorActions(sensorActions);
         this.maze = maze;
@@ -76,10 +78,11 @@ public class Robot {
                 return;
             }
             
-
+            System.out.println("run");
             // Run action
             this.makeNextAction();
         }
+        
     }
     
     /**
@@ -115,6 +118,18 @@ public class Robot {
         return this.sensorActions;
     }
     
+    public void setHeading(int a){  
+        if (a==0) {
+            heading=Direction.EAST;
+        }else if(a==1){
+            heading = Direction.NORTH;
+        }else if(a==2){
+            heading= Direction.SOUTH;
+        }else if(a==3){
+            heading=Direction.WEST;
+        }
+          
+    }
     /**
      * Runs the next action
      */
@@ -196,6 +211,85 @@ public class Robot {
         this.sensorVal = -1;
     }
     
+     public int [] makeNextAction1(){
+        // If move forward
+        if (this.getNextAction() == 1) {
+            int currentX = this.xPosition;
+            int currentY = this.yPosition;
+            
+            // Move depending on current direction
+            if (Direction.NORTH == this.heading) {
+                this.yPosition += -1;
+                if (this.yPosition < 0) {
+                    this.yPosition = 0;
+                }
+            }
+            else if (Direction.EAST == this.heading) {
+                this.xPosition += 1;
+                if (this.xPosition > this.maze.getMaxX()) {
+                    this.xPosition = this.maze.getMaxX();
+                }
+            }
+            else if (Direction.SOUTH == this.heading) {
+                this.yPosition += 1;
+                if (this.yPosition > this.maze.getMaxY()) {
+                    this.yPosition = this.maze.getMaxY();
+                }
+            }
+            else if (Direction.WEST == this.heading) {
+                this.xPosition += -1;
+                if (this.xPosition < 0) {
+                    this.xPosition = 0;
+                }
+            }
+            
+            // We can't move here
+            if (this.maze.isWall(this.xPosition, this.yPosition) == true) {
+                this.xPosition = currentX;
+                this.yPosition = currentY;
+            } 
+            else {
+                if(currentX != this.xPosition || currentY != this.yPosition) {
+                    this.route.add(this.getPosition());
+                }
+            }
+        }
+        // Move clockwise
+        else if(this.getNextAction() == 2) {
+            if (Direction.NORTH == this.heading) {
+                this.heading = Direction.EAST;
+            }
+            else if (Direction.EAST == this.heading) {
+                this.heading = Direction.SOUTH;
+            }
+            else if (Direction.SOUTH == this.heading) {
+                this.heading = Direction.WEST;
+            }
+            else if (Direction.WEST == this.heading) {
+                this.heading = Direction.NORTH;
+            }
+        }
+        // Move anti-clockwise
+        else if(this.getNextAction() == 3) {
+            if (Direction.NORTH == this.heading) {
+                this.heading = Direction.WEST;
+            }
+            else if (Direction.EAST == this.heading) {
+                this.heading = Direction.NORTH;
+            }
+            else if (Direction.SOUTH == this.heading) {
+                this.heading = Direction.EAST;
+            }
+            else if (Direction.WEST == this.heading) {
+                this.heading = Direction.SOUTH;
+            }
+        }
+        
+        // Reset sensor value
+        this.sensorVal = -1;
+        return new int[]{this.xPosition, this.yPosition}; 
+    }
+    
     /**
      * Get next action depending on sensor mapping
      * 
@@ -206,18 +300,11 @@ public class Robot {
         return this.sensorActions[this.getSensorValue()];
     }
     
-    public void printSensorValue(){
-        for(int i=0; i<l.size();i++){
-          System.out.println(l.get(i));
-         }
-        System.out.println("sum" + l.size());
+    
+    public void setNextAction(int i){
+         this.sensorActions[this.getSensorValue()]=i;
     }
     
-    public void setNextAction(){
-        for (int i = 0; i < this.getSensorValue(); i++) {
-            this.sensorActions[i]=(int)l.get(i);
-        }
-    }
     
     
     
@@ -306,6 +393,11 @@ public class Robot {
         return new int[]{this.xPosition, this.yPosition};
     }
     
+    public void setPosition(int x,int y){
+        this.xPosition=x;
+        this.yPosition=y;
+    }
+    
     /**
      * Get robot's heading
      * 
@@ -315,18 +407,9 @@ public class Robot {
         return this.heading;
     }
     
-    public void setHeading(int a){  
-        if (a==0) {
-            heading=Direction.EAST;
-        }else if(a==1){
-            heading = Direction.NORTH;
-        }else if(a==2){
-            heading= Direction.SOUTH;
-        }else if(a==3){
-            heading=Direction.WEST;
-        }
-          
-    }
+   
+    
+    
     
     /**
      * Returns robot's complete route around the maze

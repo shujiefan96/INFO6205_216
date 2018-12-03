@@ -48,21 +48,42 @@ public class RobotTest {
         Assert.assertTrue(robot.getRoute().get(0)[1]==0);
     }
     
-//    //11000101010001001010101001011010000101011111111101000110011001111010010111100101110111010110011000010101111001110111010001001110
-//    @Test
-//    public void testmakeNextAction(){
-//        Maze a = new Maze(m);
-//       int currentX = 8;
-//       int currentY = 0;
-////       String chromosomeString="11000101010001001010101001011010000101011111111101000110011001111010010111100101110111010110011000010101111001110111010001001110";
-//       int[] chromosome = new int[128];
-//       int sensorActions[] = new int[64];
-//       Robot r = new Robot(chromosome,a,100);
-//       r.setHeading(2);
-//       r.makeNextAction();
-//       System.out.println(r.getHeading());
-//       System.out.println(r.getNextAction());
-//       Assert.assertTrue(false);
-//    }
-        
+    
+    @Test
+    public void testmakeNextAction1(){
+        Maze a = new Maze(m);
+//       String chromosomeString="11000101010001001010101001011010000101011111111101000110011001111010010111100101110111010110011000010101111001110111010001001110";
+       int[] chromosome = new int[128];
+       Robot r = new Robot(chromosome,a,100);
+       
+       int currentX=8;
+       int currentY=0;
+       r.setPosition(currentX, currentY);
+       r.setHeading(0);
+       r.setNextAction(1);
+       Assert.assertTrue(r.makeNextAction1()[0]==8);
+       Assert.assertTrue(r.makeNextAction1()[1]==0);
+       
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(1);
+       r.setNextAction(1);
+
+       Assert.assertTrue(r.makeNextAction1()[0]==8);
+       Assert.assertTrue(r.makeNextAction1()[1]==0);
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(2);
+       r.setNextAction(1);
+//       System.out.println(r.getHeading() + " " + r.getNextAction()+ " " + r.makeNextAction1()[0] + " " + r.makeNextAction1()[1] + " " + r.getPosition()[0] + " " + r.getPosition()[1]) ;
+
+       Assert.assertTrue(r.makeNextAction1()[0]==8);
+       Assert.assertTrue(r.makeNextAction1()[1]==0);
+       
+       r.setPosition(8, 0);
+       r.setHeading(3);
+       r.setNextAction(1);
+       Assert.assertTrue(r.makeNextAction1()[0]==7);
+       Assert.assertTrue(r.makeNextAction1()[1]==0);
+    }
 }
