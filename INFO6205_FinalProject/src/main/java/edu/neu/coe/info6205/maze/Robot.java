@@ -70,10 +70,12 @@ public class Robot {
                 return;
             }
             
+            
             // Break if we reach a maximum number of moves
             if (this.moves > this.maxMoves) {
                 return;
             }
+            
 
             // Run action
             this.makeNextAction();
@@ -96,12 +98,12 @@ public class Robot {
             // Get sensor action
             int sensorAction = 0;
             if (sensorActionsStr[sensorValue*2] == 1){
+                
                 sensorAction += 2;
             }
             if (sensorActionsStr[(sensorValue*2)+1] == 1){
                 sensorAction += 1;
             }
-            
             // Add to sensor-action map
             sensorActions[sensorValue] = sensorAction;
         }
@@ -199,9 +201,8 @@ public class Robot {
      * 
      * @return int Next action
      */
-    public int getNextAction() { 
-        l.add(this.sensorActions[this.getSensorValue()]);
-//        System.out.println(this.sensorActions[this.getSensorValue()]);
+    public int getNextAction() {
+//        System.out.println("this.getSensorValue(): " + this.getSensorValue());
         return this.sensorActions[this.getSensorValue()];
     }
     
@@ -231,8 +232,8 @@ public class Robot {
             return this.sensorVal;
         }
                 
-		boolean frontSensor, frontLeftSensor, frontRightSensor, leftSensor, rightSensor, backSensor;
-		frontSensor = frontLeftSensor = frontRightSensor = leftSensor = rightSensor = backSensor = false;
+        boolean frontSensor, frontLeftSensor, frontRightSensor, leftSensor, rightSensor, backSensor;
+        frontSensor = frontLeftSensor = frontRightSensor = leftSensor = rightSensor = backSensor = false;
 
         // Find which sensors have been activated
         if (this.getHeading() == Direction.NORTH) {
