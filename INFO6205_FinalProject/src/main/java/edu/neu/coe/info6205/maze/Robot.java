@@ -17,6 +17,7 @@ import java.util.ArrayList;
  *
  */
 public class Robot {
+
     private enum Direction {NORTH, EAST, SOUTH, WEST};
  
     private int xPosition;
@@ -28,6 +29,7 @@ public class Robot {
     private final int sensorActions[];
     private Maze maze;
     private ArrayList<int[]> route;
+    private ArrayList l= new ArrayList();
     
     /**
      * Initalize a robot with controller
@@ -36,7 +38,7 @@ public class Robot {
      * @param maze The maze the robot will use
      * @param maxMoves The maximum number of moves the robot can make
      */
-    public Robot(int[] sensorActions, Maze maze, int maxMoves){
+    public Robot(int[] sensorActions, Maze maze, int maxMoves){//128
         this.sensorActions = this.calcSensorActions(sensorActions);
         this.maze = maze;
         int startPos[] = this.maze.getStartPosition();
@@ -48,6 +50,7 @@ public class Robot {
         this.moves = 0;
         this.route = new ArrayList<int[]>();
         this.route.add(startPos);
+        
     }
     
     /**
@@ -104,6 +107,10 @@ public class Robot {
         }
       
         return sensorActions;
+    }
+    
+    public int[] getSensorActions(){
+        return this.sensorActions;
     }
     
     /**
@@ -192,9 +199,26 @@ public class Robot {
      * 
      * @return int Next action
      */
-    public int getNextAction() {
+    public int getNextAction() { 
+        l.add(this.sensorActions[this.getSensorValue()]);
+//        System.out.println(this.sensorActions[this.getSensorValue()]);
         return this.sensorActions[this.getSensorValue()];
     }
+    
+    public void printSensorValue(){
+        for(int i=0; i<l.size();i++){
+          System.out.println(l.get(i));
+         }
+        System.out.println("sum" + l.size());
+    }
+    
+    public void setNextAction(){
+        for (int i = 0; i < this.getSensorValue(); i++) {
+            this.sensorActions[i]=(int)l.get(i);
+        }
+    }
+    
+    
     
     /**
      * Get sensor value
@@ -267,6 +291,7 @@ public class Robot {
         }
 
         this.sensorVal = sensorVal;
+//        System.out.println("sensorValue " + sensorVal);
 
         return sensorVal;
     }
@@ -285,8 +310,21 @@ public class Robot {
      * 
      * @return Direction Robot's heading
      */
-    private Direction getHeading(){
+    public Direction getHeading(){
         return this.heading;
+    }
+    
+    public void setHeading(int a){  
+        if (a==0) {
+            heading=Direction.EAST;
+        }else if(a==1){
+            heading = Direction.NORTH;
+        }else if(a==2){
+            heading= Direction.SOUTH;
+        }else if(a==3){
+            heading=Direction.WEST;
+        }
+          
     }
     
     /**
@@ -310,6 +348,8 @@ public class Robot {
             int step[] = (int[]) routeStep;
             route += "{" + step[0] + "," + step[1] + "}";
         }
+        
         return route;
     }
+    
 }

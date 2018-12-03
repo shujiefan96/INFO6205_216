@@ -139,4 +139,25 @@ public class Maze {
 
 		return score;
 	}
+        
+        public void showMaze(){
+            int z = 0;
+            for(int[] a : maze){
+            for(int i : a){
+                if(i == 1){
+                    System.out.print("=");
+                }
+                else if(i == 2){
+                    System.out.print("*");
+                }
+                else if(i == 4){
+                    System.out.print("◆");
+                }
+                else{
+                    System.out.print(" ");
+                }
+                z++;
+            }
+        }
+        }
 }

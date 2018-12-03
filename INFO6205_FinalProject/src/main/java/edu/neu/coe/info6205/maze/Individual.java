@@ -52,6 +52,12 @@ public class Individual {
 		}
 
 	}
+        
+        public void setChromosome(int [] chromosome){
+            for(int gene=0; gene<chromosome.length;gene++){
+                this.setGene(gene, chromosome[gene]);
+            }
+        }
 
 	/**
 	 * Gets individual's chromosome
@@ -61,6 +67,8 @@ public class Individual {
 	public int[] getChromosome() {
 		return this.chromosome;
 	}
+        
+        
 
 	/**
 	 * Gets individual's chromosome length

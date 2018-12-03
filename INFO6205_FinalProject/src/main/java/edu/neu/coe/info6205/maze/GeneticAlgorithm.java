@@ -62,11 +62,14 @@ public class GeneticAlgorithm {
 	public double calcFitness(Individual individual, Maze maze) {
 		// Get individual's chromosome
 		int[] chromosome = individual.getChromosome();
-                
+//                for (int i : chromosome) {
+//                    System.out.print(i);
+//            }
 
 		// Get fitness
 		Robot robot = new Robot(chromosome, maze, 100);
 		robot.run();
+                robot.printSensorValue();
 		int fitness = maze.scoreRoute(robot.getRoute());
                 
 //                System.out.println(robot.printRoute());

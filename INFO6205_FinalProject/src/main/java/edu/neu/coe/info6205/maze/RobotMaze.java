@@ -5,6 +5,7 @@
  */
 package edu.neu.coe.info6205.maze;
 
+import com.sun.swing.internal.plaf.metal.resources.metal;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +41,7 @@ public class RobotMaze extends javax.swing.JFrame {
 
     
     
-        
+    
     HashMap<Integer, ArrayList<int[]>> map;
     int generation = 1;
 

@@ -43,7 +43,7 @@ public class RobotController {
 		while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
 			// Print fittest individual from population
 			Individual fittest = population.getFittest(0);
-                        
+                          
                         String route = "";       
                         for (Object routeStep : fittest.getRoute()) {
                             int step[] = (int[]) routeStep;
