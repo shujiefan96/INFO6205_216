@@ -31,9 +31,10 @@ import java.util.ArrayList;
 public class Maze {
 	private final int maze[][];
 	private int startPosition[] = { -1, -1 };
+        private int endPosition[] = { -1, -1 };
 
 	public Maze(int maze[][]) {
-		this.maze = maze;
+            this.maze = maze;
 	}
 
 	/**
@@ -42,27 +43,56 @@ public class Maze {
 	 * @return int[] x,y start position of maze
 	 */
 	public int[] getStartPosition() {
-		// Check we already found start position
-		if (this.startPosition[0] != -1 && this.startPosition[1] != -1) {
-			return this.startPosition;
-		}
+            // Check we already found start position
+            if (this.startPosition[0] != -1 && this.startPosition[1] != -1) {
+                return this.startPosition;
+            }
 
-		// Default return value
-		int startPosition[] = { 0, 0 };
+            // Default return value
+            int startPosition[] = { 0, 0 };
 
-		// Loop over rows
-		for (int rowIndex = 0; rowIndex < this.maze.length; rowIndex++) {
-			// Loop over columns
-			for (int colIndex = 0; colIndex < this.maze[rowIndex].length; colIndex++) {
-				// 2 is the type for start position
-				if (this.maze[rowIndex][colIndex] == 2) {
-					this.startPosition = new int[] { colIndex, rowIndex };
-					return new int[] { colIndex, rowIndex };
-				}
-			}
-		}
+            // Loop over rows
+            for (int rowIndex = 0; rowIndex < this.maze.length; rowIndex++) {
+                // Loop over columns
+                for (int colIndex = 0; colIndex < this.maze[rowIndex].length; colIndex++) {
+                    // 2 is the type for start position
+                    if (this.maze[rowIndex][colIndex] == 2) {
+                        this.startPosition = new int[] { colIndex, rowIndex };
+                        return new int[] { colIndex, rowIndex };
+                    }
+                }
+            }
 
-		return startPosition;
+            return startPosition;
+	}
+        
+        /**
+	 * Get start position of maze
+	 * 
+	 * @return int[] x,y start position of maze
+	 */
+	public int[] getEndPosition() {
+            // Check we already found start position
+            if (this.endPosition[0] != -1 && this.endPosition[1] != -1) {
+                return this.endPosition;
+            }
+
+            // Default return value
+            int endPosition[] = { 0, 0 };
+
+            // Loop over rows
+            for (int rowIndex = 0; rowIndex < this.maze.length; rowIndex++) {
+                // Loop over columns
+                for (int colIndex = 0; colIndex < this.maze[rowIndex].length; colIndex++) {
+                    // 4 is the type for end position
+                    if (this.maze[rowIndex][colIndex] == 4) {
+                        this.endPosition = new int[] { colIndex, rowIndex };
+                        return new int[] { colIndex, rowIndex };
+                    }
+                }
+            }
+
+            return endPosition;
 	}
 
 	/**
@@ -74,8 +104,8 @@ public class Maze {
 	 *            position
 	 * @return int Position value
 	 */
-	public int getPositionValue(int x, int y) {
-		if (x < 0 || y < 0 || x >= this.maze.length || y >= this.maze[0].length) {
+        public int getPositionValue(int x, int y) {
+		if (x < 0 || y < 0 || x >= this.maze[0].length || y >= this.maze.length) {
 			return 1;
 		}
 		return this.maze[y][x];
@@ -134,9 +164,24 @@ public class Maze {
 				score++;
 				// Remove reward
 				visited[step[1]][step[0]] = true;
+//                                System.out.println("step[1]: " + step[1] + " ,step[0]: " + step[0]);
 			}
 		}
 
 		return score;
 	}
+        
+        
+        //return total steps
+        public int getSteps(){
+            int steps = 0;
+            for (int[] routeStep : this.maze) {
+                for(int i : routeStep){
+                    if (i == 3 || i == 2 || i == 4) {
+                        steps++;
+                    }
+                }                
+            }
+            return steps;
+        }
 }
