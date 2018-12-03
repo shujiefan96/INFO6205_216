@@ -31,7 +31,7 @@ public class GeneticAlgorithm {
 		this.populationSize = populationSize;
 		this.mutationRate = mutationRate;
 		this.crossoverRate = crossoverRate;
-		this.elitismCount = elitismCount;//the number of elitism 
+		this.elitismCount = elitismCount;
 		this.tournamentSize = tournamentSize;
 	}
 
@@ -62,9 +62,7 @@ public class GeneticAlgorithm {
 	public double calcFitness(Individual individual, Maze maze) {
 		// Get individual's chromosome
 		int[] chromosome = individual.getChromosome();
-//                for (int i : chromosome) {
-//                    System.out.print(i);
-//            }
+                
 
 		// Get fitness
 		Robot robot = new Robot(chromosome, maze, 100);

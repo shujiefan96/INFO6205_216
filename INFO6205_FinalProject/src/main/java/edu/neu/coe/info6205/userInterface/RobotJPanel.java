@@ -5,10 +5,6 @@
  */
 package edu.neu.coe.info6205.userInterface;
 
-import com.sun.swing.internal.plaf.metal.resources.metal;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import edu.neu.coe.info6205.maze.RobotController;
 import java.awt.CardLayout;
 import java.util.ArrayList;
@@ -28,8 +24,6 @@ public class RobotJPanel extends javax.swing.JPanel {
     /**
      * Creates new form RobotJPanel
      */
-    
-    
     
     JPanel c;
     int[][] m;
