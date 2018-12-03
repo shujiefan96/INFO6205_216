@@ -20,6 +20,7 @@ import org.junit.Test;
  * @author yangjing
  */
 public class RobotTest {
+    private enum Direction {NORTH, EAST, SOUTH, WEST};
     private int maze[][];
     int[][] m = new int[][] { 
                 { 0, 0, 0, 0, 1, 0, 1, 3, 2 }, 
@@ -50,9 +51,8 @@ public class RobotTest {
     
     
     @Test
-    public void testmakeNextAction1(){
+    public void testmakeNextAction(){
         Maze a = new Maze(m);
-//       String chromosomeString="11000101010001001010101001011010000101011111111101000110011001111010010111100101110111010110011000010101111001110111010001001110";
        int[] chromosome = new int[128];
        Robot r = new Robot(chromosome,a,100);
        
@@ -75,8 +75,6 @@ public class RobotTest {
        r.setPosition(currentX, currentY);
        r.setHeading(2);
        r.setNextAction(1);
-//       System.out.println(r.getHeading() + " " + r.getNextAction()+ " " + r.makeNextAction1()[0] + " " + r.makeNextAction1()[1] + " " + r.getPosition()[0] + " " + r.getPosition()[1]) ;
-
        Assert.assertTrue(r.makeNextAction1()[0]==8);
        Assert.assertTrue(r.makeNextAction1()[1]==0);
        
@@ -85,5 +83,80 @@ public class RobotTest {
        r.setNextAction(1);
        Assert.assertTrue(r.makeNextAction1()[0]==7);
        Assert.assertTrue(r.makeNextAction1()[1]==0);
+    }
+    
+    @Test
+    public void testClockwise(){
+       Maze a = new Maze(m);
+       int[] chromosome = new int[128];
+       Robot r = new Robot(chromosome,a,100);
+       
+       int currentX=8;
+       int currentY=0;
+       r.setPosition(currentX, currentY);
+       r.setHeading(0);
+       r.setNextAction(2);
+       r.makeNextAction();
+       Assert.assertTrue(r.getHeadingString().equals("SOUTH")); 
+       
+
+       r.setPosition(currentX, currentY);
+       r.setHeading(1);
+       r.setNextAction(2);
+       r.makeNextAction();
+       Assert.assertTrue(r.getHeadingString().equals("EAST"));
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(2);
+       r.setNextAction(2);
+       r.makeNextAction();
+       Assert.assertTrue(r.getHeadingString().equals("WEST"));
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(3);
+       r.setNextAction(2);
+       r.makeNextAction();
+       Assert.assertTrue(r.getHeadingString().equals("NORTH"));
+    }
+    
+    
+    @Test
+    public void testAntiClockwise(){
+       Maze a = new Maze(m);
+       int[] chromosome = new int[128];
+       Robot r = new Robot(chromosome,a,100);
+       
+       int currentX=8;
+       int currentY=0;
+       r.setPosition(currentX, currentY);
+       r.setHeading(0);
+       r.setNextAction(3);
+       r.makeNextAction();
+       System.out.println(r.getHeading());
+       Assert.assertTrue(r.getHeadingString().equals("NORTH"));
+       
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(1);
+       r.setNextAction(3);
+       r.makeNextAction();
+       System.out.println(r.getHeading());
+       Assert.assertTrue(r.getHeadingString().equals("WEST"));
+       
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(2);
+       r.setNextAction(3);
+       r.makeNextAction();
+       System.out.println(r.getHeading());
+       Assert.assertTrue(r.getHeadingString().equals("EAST"));
+       
+       
+       r.setPosition(currentX, currentY);
+       r.setHeading(3);
+       r.setNextAction(3);
+       r.makeNextAction();
+       System.out.println(r.getHeading());
+       Assert.assertTrue(r.getHeadingString().equals("SOUTH"));
     }
 }

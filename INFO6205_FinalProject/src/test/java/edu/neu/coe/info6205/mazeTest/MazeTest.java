@@ -49,7 +49,6 @@ public class MazeTest {
     @Test
     public void maze_isWall(){
         Maze a = new Maze(m);
-//        a.showMaze();
          for(int i=0;i<m.length;i++){
             for(int j=0;j<m.length;j++){
                 Assert.assertTrue(a.isWall(6, 0));

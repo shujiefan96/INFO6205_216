@@ -406,6 +406,10 @@ public class Robot {
         return this.heading;
     }
     
+    public String getHeadingString(){
+        return String.valueOf(this.heading);
+    }
+    
    
     
     

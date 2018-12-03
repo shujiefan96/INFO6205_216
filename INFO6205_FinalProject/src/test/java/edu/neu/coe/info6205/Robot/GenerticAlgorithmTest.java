@@ -51,4 +51,23 @@ public class GenerticAlgorithmTest {
         }
     }
     
+    @Test
+    public void testGenerationFitness(){
+        Maze a = new Maze(m);
+        GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
+        Population population = ga.initPopulation(128);
+        ga.evalPopulation(population, a);
+        double fitness= population.getPopulationFitness();
+        
+        Individual individual=population.getFittest(0);
+        population = ga.crossoverPopulation(population);
+        // Apply mutation
+        population = ga.mutatePopulation(population);
+        // Evaluate population
+        ga.evalPopulation(population, a);
+        double fitnessAfterGA = population.getPopulationFitness();
+        System.out.println(fitness + " " + fitnessAfterGA);
+        Assert.assertTrue(fitness<fitnessAfterGA);    
+    }
+    
 }
