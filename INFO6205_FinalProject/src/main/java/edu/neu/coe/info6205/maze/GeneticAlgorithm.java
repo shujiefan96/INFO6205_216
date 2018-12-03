@@ -31,7 +31,7 @@ public class GeneticAlgorithm {
 		this.populationSize = populationSize;
 		this.mutationRate = mutationRate;
 		this.crossoverRate = crossoverRate;
-		this.elitismCount = elitismCount;
+		this.elitismCount = elitismCount;//the number of elitism 
 		this.tournamentSize = tournamentSize;
 	}
 

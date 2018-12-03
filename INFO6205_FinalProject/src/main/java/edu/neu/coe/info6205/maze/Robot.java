@@ -78,7 +78,6 @@ public class Robot {
                 return;
             }
             
-            System.out.println("run");
             // Run action
             this.makeNextAction();
         }
