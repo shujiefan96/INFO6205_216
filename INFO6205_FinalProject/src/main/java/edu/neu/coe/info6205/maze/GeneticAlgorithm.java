@@ -66,7 +66,7 @@ public class GeneticAlgorithm {
 
 		// Get fitness
 		Robot robot = new Robot(chromosome, maze, 100);
-		robot.run();
+		robot.simulation();
 		int fitness = maze.scoreRoute(robot.getRoute());
                 
 //                System.out.println(robot.printRoute());

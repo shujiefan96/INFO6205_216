@@ -204,7 +204,8 @@ public class RobotJPanel extends javax.swing.JPanel {
         generation = Integer.valueOf(ge);
         RobotController rc = new RobotController(generation);
         map = rc.route(m);
-        System.out.println("size:" + map.size());
+//        System.out.println("size:" + map.size());
+        System.out.println("Animation Started: ");
 
         statusJtext.setText("Start Animation");
 
@@ -234,11 +235,12 @@ public class RobotJPanel extends javax.swing.JPanel {
                 } finally{
                     if(routeFound){
                         statusJtext.setText("Complete, route found");
+                        System.out.println("Animation Completed, route found");
                     }
                     else{
                         statusJtext.setText("Complete, failed to find route");
+                        System.out.println("Animation Completed, failed to find route");
                     }
-                    System.out.println("Complete");
                 }
 
             }

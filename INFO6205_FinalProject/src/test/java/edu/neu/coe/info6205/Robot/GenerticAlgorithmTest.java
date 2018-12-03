@@ -44,7 +44,7 @@ public class GenerticAlgorithmTest {
             Individual individual= population.getFittest(0);
             int[] chromosome = individual.getChromosome();
             Robot robot = new Robot(chromosome, a, 100);
-            robot.run();
+            robot.simulation();
             int fitness = a.scoreRoute(robot.getRoute());
             Assert.assertTrue(fitness<29);
             generation++;
