@@ -6,7 +6,6 @@
 package edu.neu.coe.info6205.userInterface;
 
 import java.awt.CardLayout;
-import javax.swing.GroupLayout;
 
 /**
  *
