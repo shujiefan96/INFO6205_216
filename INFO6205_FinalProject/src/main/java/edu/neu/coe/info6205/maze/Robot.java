@@ -11,11 +11,7 @@ package edu.neu.coe.info6205.maze;
  */
 import java.util.ArrayList;
 
-/**
- * A robot abstraction. Give it a maze and an instruction set, and it will
- * attempt to navigate to the finish.
- *
- */
+
 public class Robot {
 
     private enum moveDirection {NORTH, EAST, SOUTH, WEST}; 

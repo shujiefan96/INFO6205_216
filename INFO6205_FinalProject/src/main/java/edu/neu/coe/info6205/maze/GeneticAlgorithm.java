@@ -5,258 +5,201 @@
  */
 package edu.neu.coe.info6205.maze;
 
+import java.util.Random;
+
 /**
  *
  * @author yangjing
  */
 public class GeneticAlgorithm {
 
-	/**
-	 * See chapter2/GeneticAlgorithm for a description of these properties.
-	 */
-	private int populationSize;
-	private double mutationRate;
-	private double crossoverRate;
-	private int elitismCount;
+    private int populationSize;
+    private double mutationRate;
+    private double crossoverRate;
+    private int elitismSize;
+    private int tournamentSize;
+    Random random = new Random();
 
-	/**
-	 * A new property we've introduced is the size of the population used for
-	 * tournament selection in crossover.
-	 */
-	protected int tournamentSize;
+    public GeneticAlgorithm(int populationSize, double mutationRate, double crossoverRate, int elitismSize, int tournamentSize) {
+        this.populationSize = populationSize;
+        this.mutationRate = mutationRate;
+        this.crossoverRate = crossoverRate;
+        this.elitismSize = elitismSize;
+        this.tournamentSize = tournamentSize;
+    }
 
-	public GeneticAlgorithm(int populationSize, double mutationRate, double crossoverRate, int elitismCount,
-			int tournamentSize) {
+    /**
+     * Initialize population
+     * 
+     * @param chromosomeLength The length of the individual's chromosome
+     * @return Population The initial population generated
+     */
+    public Population initPopulation(int chromosomeLength) {
+        // Initialize population
+        Population population = new Population(this.populationSize, chromosomeLength);
+        return population;
+    }
 
-		this.populationSize = populationSize;
-		this.mutationRate = mutationRate;
-		this.crossoverRate = crossoverRate;
-		this.elitismCount = elitismCount;
-		this.tournamentSize = tournamentSize;
-	}
+    /**
+     * Calculate individual's fitness.
+     * 
+     * @param individual The individual to evaluate
+     * @return double Individual's fitness
+     */
+    public double calculateFitness(Individual individual, Maze maze) {
+        //get individual's chromosome
+        int[] chromosome = individual.getChromosome();
 
-	/**
-	 * Initialize population
-	 * 
-	 * @param chromosomeLength
-	 *            The length of the individuals chromosome
-	 * @return population The initial population generated
-	 */
-	public Population initPopulation(int chromosomeLength) {
-		// Initialize population
-		Population population = new Population(this.populationSize, chromosomeLength);
-		return population;
-	}
+        //get fitness
+        int maxMoves = 100;
+        Robot robot = new Robot(chromosome, maze, maxMoves);
+        robot.simulation();
+        int fitness = maze.getRouteScore(robot.getRoute());
 
-	/**
-	 * Calculate fitness for an individual.
-	 * 
-	 * This fitness calculation is a little more involved than chapter2's. In
-	 * this case we initialize a new Robot class, and evaluate its performance
-	 * in the given maze.
-	 * 
-	 * @param individual
-	 *            the individual to evaluate
-	 * @return double The fitness value for individual
-	 */
-	public double calcFitness(Individual individual, Maze maze) {
-		// Get individual's chromosome
-		int[] chromosome = individual.getChromosome();
-                
+        //set fitness to individual
+        individual.setFitness(fitness);
+        //store route
+        individual.setRoute(robot.getRoute());
 
-		// Get fitness
-		Robot robot = new Robot(chromosome, maze, 100);
-		robot.simulation();
-		int fitness = maze.scoreRoute(robot.getRoute());
-                
-//                System.out.println(robot.printRoute());
+        return fitness;
+    }
 
+    /**
+     * Evaluate the whole population
+     * 
+     * @param population The population to evaluate
+     * @param maze The maze to evaluate each individual against.
+     */
+    public void evaluatePopulation(Population population, Maze maze) {
+        double totalFitness = 0;
 
-		// Store fitness
-		individual.setFitness(fitness);
-                
-                //store route
-                individual.setRoute(robot.getRoute());
+        for (Individual individual : population.getIndividuals()) {
+            totalFitness += this.calculateFitness(individual, maze);
+        }
 
-		return fitness;
-	}
+        population.setPopulationFitness(totalFitness);
+    }
 
-	/**
-	 * Evaluate the whole population
-	 * 
-	 * Essentially, loop over the individuals in the population, calculate the
-	 * fitness for each, and then calculate the entire population's fitness. The
-	 * population's fitness may or may not be important, but what is important
-	 * here is making sure that each individual gets evaluated.
-	 * 
-	 * The difference between this method and the one in chapter2 is that this
-	 * method requires the maze itself as a parameter; unlike the All Ones
-	 * problem in chapter2, we can't determine a fitness just by looking at the
-	 * chromosome -- we need to evaluate each member against the maze.
-	 * 
-	 * @param population
-	 *            the population to evaluate
-	 * @param maze
-	 *            the maze to evaluate each individual against.
-	 */
-	public void evalPopulation(Population population, Maze maze) {
-		double populationFitness = 0;
+    /**
+     * Check if generation has reached maximum generations
+     * 
+     * @param generationsCount Number of generations count
+     * @param maxGenerations Maximum number of generations
+     * @return boolean True if maximum generations reached, otherwise, false
+     */
+    public boolean isMaxGenerationsReached(int generationsCount, int maxGenerations) {
+        return (generationsCount > maxGenerations);
+    }
 
-		// Loop over population evaluating individuals and suming population
-		// fitness
-		for (Individual individual : population.getIndividuals()) {
-			populationFitness += this.calcFitness(individual, maze);
-		}
+    /**
+     * Selects parent for crossover using tournament selection, which is choosing N random individuals, and then
+     * choosing the best of those.
+     * 
+     * @param population
+     * @return Individual The individual selected as a parent
+     */
+    public Individual selectParent(Population population) {
+        // Create tournament
+        Population tournament = new Population(this.tournamentSize);
 
-		population.setPopulationFitness(populationFitness);
-	}
+        // Add random individuals to the tournament
+        Random random = new Random();
+        for (int i = 0; i < this.tournamentSize; i++) {
+            Individual tournamentIndividual = population.getIndividual(random.nextInt(tournamentSize));
+            tournament.setIndividual(i, tournamentIndividual);
+        }
 
-	/**
-	 * Check if population has met termination condition
-	 * 
-	 * We don't actually know what a perfect solution looks like for the robot
-	 * controller problem, so the only constraint we can give to the genetic
-	 * algorithm is an upper bound on the number of generations.
-	 * 
-	 * @param generationsCount
-	 *            Number of generations passed
-	 * @param maxGenerations
-	 *            Number of generations to terminate after
-	 * @return boolean True if termination condition met, otherwise, false
-	 */
-	public boolean isTerminationConditionMet(int generationsCount, int maxGenerations) {
-		return (generationsCount > maxGenerations);
-	}
+        // Return the best
+        return tournament.getIndividualByFitness(0);
+    }
 
-	/**
-	 * Selects parent for crossover using tournament selection
-	 * 
-	 * Tournament selection works by choosing N random individuals, and then
-	 * choosing the best of those.
-	 * 
-	 * @param population
-	 * @return The individual selected as a parent
-	 */
-	public Individual selectParent(Population population) {
-		// Create tournament
-		Population tournament = new Population(this.tournamentSize);
+    /**
+     * Apply mutation to population
+     * 
+     * @param population The population to apply mutation to
+     * @return Population The mutated population
+     */
+    
+    public Population mutatePopulation(Population population) {
+        // Initialize new population
+        Population newPopulation = new Population(this.populationSize);
+        
+        Individual[] pop = population.getSortedIndividuals();
+        for (int popIndex = 0; popIndex < pop.length; popIndex++) {
+            Individual individual = pop[popIndex];
+            
+            // Loop over individual's genes
+            for (int geneIndex = 0; geneIndex < individual.getChromosomeLength(); geneIndex++) {
+                // Skip mutation if this is an elite individual
+                if (popIndex >= this.elitismSize) {
+                    // Does this gene need mutation?
+                    if (this.mutationRate > random.nextDouble()) {
+                        if (individual.getGene(geneIndex) == 1) {
+                            int newGene = 0;
+                            // Mutate gene
+                            individual.setGene(geneIndex, newGene);
+                        }
+                        else{
+                            int newGene = 1;
+                            // Mutate gene
+                            individual.setGene(geneIndex, newGene);
+                        }
+                    }
+                }
+            }
+            
+            // Add individual to population
+            newPopulation.setIndividual(popIndex, individual);
+        }
 
-		// Add random individuals to the tournament
-		population.shuffle();
-		for (int i = 0; i < this.tournamentSize; i++) {
-			Individual tournamentIndividual = population.getIndividual(i);
-			tournament.setIndividual(i, tournamentIndividual);
-		}
+        // Return mutated population
+        return newPopulation;
+    }
 
-		// Return the best
-		return tournament.getFittest(0);
-	}
+    /**
+     * Crossover population using single point crossover
+     *  
+     * @param population Population to crossover
+     * @return Population The new population
+     */    
+    public Population crossoverPopulation(Population population) {
+        //create new population
+        Population newPopulation = new Population(population.getSize());
 
-	/**
-	 * Apply mutation to population
-	 * 
-	 * This method is the same as chapter2's version.
-	 * 
-	 * @param population
-	 *            The population to apply mutation to
-	 * @return The mutated population
-	 */
-	public Population mutatePopulation(Population population) {
-		// Initialize new population
-		Population newPopulation = new Population(this.populationSize);
+        Individual[] pop = population.getSortedIndividuals();
+        for (int popIndex = 0; popIndex < pop.length; popIndex++) {
+            Individual parent1 = pop[popIndex];
+            
+            //check if it needs crossover
+            if (this.crossoverRate > random.nextDouble() && popIndex >= this.elitismSize) {
+                //initialize offspring
+                Individual offspring = new Individual(parent1.getChromosomeLength());
 
-		// Loop over current population by fitness
-		for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
-			Individual individual = population.getFittest(populationIndex);
+                //find second parent
+                Individual parent2 = this.selectParent(population);
 
-			// Loop over individual's genes
-			for (int geneIndex = 0; geneIndex < individual.getChromosomeLength(); geneIndex++) {
-				// Skip mutation if this is an elite individual
-				if (populationIndex >= this.elitismCount) {
-					// Does this gene need mutation?
-					if (this.mutationRate > Math.random()) {
-						// Get new gene
-						int newGene = 1;
-						if (individual.getGene(geneIndex) == 1) {
-							newGene = 0;
-						}
-						// Mutate gene
-						individual.setGene(geneIndex, newGene);
-					}
-				}
-			}
+                //get random swap point
+                int swapPoint = (int)(random.nextDouble() * (parent1.getChromosomeLength() + 1));
 
+                for (int geneIndex = 0; geneIndex < parent1.getChromosomeLength(); geneIndex++) {
+                    // Use part of parent1's genes and part of parent2's genes
+                    if (geneIndex < swapPoint) {
+                        offspring.setGene(geneIndex, parent1.getGene(geneIndex));
+                    } else {
+                        offspring.setGene(geneIndex, parent2.getGene(geneIndex));
+                    }
+                }
 
-			// Add individual to population
-			newPopulation.setIndividual(populationIndex, individual);
-		}
+                //add offspring to new population
+                newPopulation.setIndividual(popIndex, offspring);
+            }         
+            else {
+                //add individual to new population without applying crossover
+                newPopulation.setIndividual(popIndex, parent1);
+            }
+        }
 
-		// Return mutated population
-		return newPopulation;
-	}
-
-	/**
-	 * Crossover population using single point crossover
-	 * 
-	 * Single-point crossover differs from the crossover used in chapter2.
-	 * Chapter2's version simply selects genes at random from each parent, but
-	 * in this case we want to select a contiguous region of the chromosome from
-	 * each parent.
-	 * 
-	 * For instance, chapter2's version would look like this:
-	 * 
-	 * Parent1: AAAAAAAAAA 
-	 * Parent2: BBBBBBBBBB 
-	 * Child  : AABBAABABA
-	 * 
-	 * This version, however, might look like this:
-	 * 
-	 * Parent1: AAAAAAAAAA 
-	 * Parent2: BBBBBBBBBB 
-	 * Child  : AAAABBBBBB
-	 * 
-	 * @param population
-	 *            Population to crossover
-	 * @return Population The new population
-	 */
-	public Population crossoverPopulation(Population population) {
-		// Create new population
-		Population newPopulation = new Population(population.size());
-
-		// Loop over current population by fitness
-		for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
-			Individual parent1 = population.getFittest(populationIndex);
-
-			// Apply crossover to this individual?
-			if (this.crossoverRate > Math.random() && populationIndex >= this.elitismCount) {
-				// Initialize offspring
-				Individual offspring = new Individual(parent1.getChromosomeLength());
-				
-				// Find second parent
-				Individual parent2 = this.selectParent(population);
-
-				// Get random swap point
-				int swapPoint = (int) (Math.random() * (parent1.getChromosomeLength() + 1));
-
-				// Loop over genome
-				for (int geneIndex = 0; geneIndex < parent1.getChromosomeLength(); geneIndex++) {
-					// Use half of parent1's genes and half of parent2's genes
-					if (geneIndex < swapPoint) {
-						offspring.setGene(geneIndex, parent1.getGene(geneIndex));
-					} else {
-						offspring.setGene(geneIndex, parent2.getGene(geneIndex));
-					}
-				}
-
-				// Add offspring to new population
-				newPopulation.setIndividual(populationIndex, offspring);
-			} else {
-				// Add individual to new population without applying crossover
-				newPopulation.setIndividual(populationIndex, parent1);
-			}
-		}
-
-		return newPopulation;
-	}
+        return newPopulation;
+    }
 
 }

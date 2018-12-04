@@ -104,7 +104,7 @@ public class MazeTest {
         step8[0]=4;
         step8[1]=3;
         route.add(step8); 
-        System.out.println(a.scoreRoute(route));
-        Assert.assertTrue(a.scoreRoute(route)==7);
+        System.out.println(a.getRouteScore(route));
+        Assert.assertTrue(a.getRouteScore(route)==7);
     }
 }

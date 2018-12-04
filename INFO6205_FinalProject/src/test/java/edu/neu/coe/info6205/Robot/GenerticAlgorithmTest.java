@@ -40,12 +40,12 @@ public class GenerticAlgorithmTest {
         GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
         Population population = ga.initPopulation(128);
         int generation = 1;
-        while (ga.isTerminationConditionMet(generation, maxGenerations) == false){          
-            Individual individual= population.getFittest(0);
+        while (ga.isMaxGenerationsReached(generation, maxGenerations) == false){          
+            Individual individual= population.getIndividualByFitness(0);
             int[] chromosome = individual.getChromosome();
             Robot robot = new Robot(chromosome, a, 100);
             robot.simulation();
-            int fitness = a.scoreRoute(robot.getRoute());
+            int fitness = a.getRouteScore(robot.getRoute());
             Assert.assertTrue(fitness<29);
             generation++;
         }
@@ -56,15 +56,15 @@ public class GenerticAlgorithmTest {
         Maze a = new Maze(m);
         GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
         Population population = ga.initPopulation(128);
-        ga.evalPopulation(population, a);
+        ga.evaluatePopulation(population, a);
         double fitness= population.getPopulationFitness();
         
-        Individual individual=population.getFittest(0);
+        Individual individual=population.getIndividualByFitness(0);
         population = ga.crossoverPopulation(population);
         // Apply mutation
         population = ga.mutatePopulation(population);
         // Evaluate population
-        ga.evalPopulation(population, a);
+        ga.evaluatePopulation(population, a);
         double fitnessAfterGA = population.getPopulationFitness();
         System.out.println(fitness + " " + fitnessAfterGA);
         Assert.assertTrue(fitness<fitnessAfterGA);    

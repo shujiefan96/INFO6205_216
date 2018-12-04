@@ -15,12 +15,6 @@ import java.util.HashMap;
  */
 public class RobotController {
     long startTime, endTime;
-
-    /**
-     * Upper bound for the number of generations to run for. 200 generations is
-     * sufficient to find the path about 50% of the time, but for demonstration
-     * purposes we've set this high by default.
-     */
     public static int maxGenerations;
 
     public RobotController(int maxGenerations){
@@ -41,25 +35,34 @@ public class RobotController {
         // Create genetic algorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
         Population population = ga.initPopulation(128);
-        ga.evalPopulation(population, maze);
+        ga.evaluatePopulation(population, maze);
 
         // Keep track of current generation
         int generation = 1;
         // Start evolution loop
-        while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
+        while (ga.isMaxGenerationsReached(generation, maxGenerations) == false) {
             // Print fittest individual from population
-            Individual fittest = population.getFittest(0);
+            Individual fittest = population.getIndividualByFitness(0);
                         
             System.out.println("Generation " + generation + ", Best solution (" + fittest.getFitness() + "): " + fittest.toString());
             System.out.println("Route: " + this.printRoute(fittest.getRoute()));
 
             map.put(generation, fittest.getRoute());
 
+//            //if route found, stop
+//            if((maze.getSteps() == maze.scoreRoute(fittest.getRoute()) + 2) && 
+//                    fittest.getRoute().contains(maze.getStartPosition()) && 
+//                    fittest.getRoute().get(fittest.getRoute().size() - 1)[0] == maze.getEndPosition()[0] &&
+//                    fittest.getRoute().get(fittest.getRoute().size() - 1)[1] == maze.getEndPosition()[1] &&
+//                    maze.getSteps() == fittest.getRoute().size()){
+//                break;
+//            }
+
             //if route found, stop
-            if((maze.getSteps() == maze.scoreRoute(fittest.getRoute()) + 2) && 
-                    fittest.getRoute().contains(maze.getStartPosition()) && 
+            if(fittest.getRoute().contains(maze.getStartPosition()) && 
                     fittest.getRoute().get(fittest.getRoute().size() - 1)[0] == maze.getEndPosition()[0] &&
-                    fittest.getRoute().get(fittest.getRoute().size() - 1)[1] == maze.getEndPosition()[1]){
+                    fittest.getRoute().get(fittest.getRoute().size() - 1)[1] == maze.getEndPosition()[1] &&
+                    maze.getSteps() == fittest.getRoute().size()){
                 break;
             }
 
@@ -71,7 +74,7 @@ public class RobotController {
             population = ga.mutatePopulation(population);
 
             // Evaluate population
-            ga.evalPopulation(population, maze);
+            ga.evaluatePopulation(population, maze);
 
             // Increment the current generation
             generation++;
@@ -86,7 +89,7 @@ public class RobotController {
             System.out.println("Stopped after " + maxGenerations + " generations:");
         }
 
-        Individual fittest = population.getFittest(0);
+        Individual fittest = population.getIndividualByFitness(0);
 
         System.out.println("Best Solution (" + fittest.getFitness() + "): " + fittest.toString());
         System.out.println("Best Route: " + this.printRoute(fittest.getRoute()));

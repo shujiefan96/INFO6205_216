@@ -39,7 +39,7 @@ public class RobotTest {
         Maze a = new Maze(m);
         GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
         Population population = ga.initPopulation(128);        
-        Individual individual= population.getFittest(0);
+        Individual individual= population.getIndividualByFitness(0);
         int[] chromosome = individual.getChromosome();
         Robot robot = new Robot(chromosome, a, 100);
         robot.simulation();
