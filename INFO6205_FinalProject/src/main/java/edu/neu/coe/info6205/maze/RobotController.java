@@ -17,7 +17,7 @@ public class RobotController {
     long startTime, endTime, runTime = 0;
     int generationFound = 0;
     public static int maxGenerations;
-    private int populationSize = 200;
+    private int populationSize = 150;
     private double mutationRate = 0.05;
     private double crossoverRate = 0.95;
     private int elitismSize = 2;

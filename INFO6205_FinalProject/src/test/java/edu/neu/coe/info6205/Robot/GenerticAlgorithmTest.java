@@ -66,7 +66,7 @@ public class GenerticAlgorithmTest {
         // Evaluate population
         ga.evaluatePopulation(population, a);
         double fitnessAfterGA = population.getPopulationFitness();
-        System.out.println(fitness + " " + fitnessAfterGA);
+//        System.out.println(fitness + " " + fitnessAfterGA);
         Assert.assertTrue(fitness<fitnessAfterGA);    
     }
     

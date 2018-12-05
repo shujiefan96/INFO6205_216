@@ -41,8 +41,8 @@ public class RobotTest {
         int[] chromosome = individual.getChromosome();
         Robot robot = new Robot(chromosome, a, 100);
         robot.simulation();
-        System.out.println(robot.getRoute().get(0)[0]);
-        System.out.println(robot.getPosition()[0]);       
+//        System.out.println(robot.getRoute().get(0)[0]);
+//        System.out.println(robot.getPosition()[0]);       
         Assert.assertTrue(robot.getRoute().get(0)[0]==8);
         Assert.assertTrue(robot.getRoute().get(0)[1]==0);
     }
@@ -51,110 +51,110 @@ public class RobotTest {
     @Test
     public void testmakeNextAction(){
         Maze a = new Maze(m);
-       int[] chromosome = new int[128];
-       Robot r = new Robot(chromosome,a,100);
-       
-       int currentX=8;
-       int currentY=0;
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(0);
-       r.setNextAction(1);
-       Assert.assertTrue(r.runNextAction()[0]==8);
-       Assert.assertTrue(r.runNextAction()[1]==0);
-       
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(1);
-       r.setNextAction(1);
+        int[] chromosome = new int[128];
+        Robot r = new Robot(chromosome,a,100);
 
-       Assert.assertTrue(r.runNextAction()[0]==8);
-       Assert.assertTrue(r.runNextAction()[1]==0);
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(2);
-       r.setNextAction(1);
-       Assert.assertTrue(r.runNextAction()[0]==8);
-       Assert.assertTrue(r.runNextAction()[1]==0);
-       
-       r.setPosition(8, 0);
-       r.setHeadingDir(3);
-       r.setNextAction(1);
-       Assert.assertTrue(r.runNextAction()[0]==7);
-       Assert.assertTrue(r.runNextAction()[1]==0);
+        int currentX=8;
+        int currentY=0;
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(0);
+        r.setNextAction(1);
+        Assert.assertTrue(r.runNextAction()[0]==8);
+        Assert.assertTrue(r.runNextAction()[1]==0);
+
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(1);
+        r.setNextAction(1);
+
+        Assert.assertTrue(r.runNextAction()[0]==8);
+        Assert.assertTrue(r.runNextAction()[1]==0);
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(2);
+        r.setNextAction(1);
+        Assert.assertTrue(r.runNextAction()[0]==8);
+        Assert.assertTrue(r.runNextAction()[1]==0);
+
+        r.setPosition(8, 0);
+        r.setHeadingDir(3);
+        r.setNextAction(1);
+        Assert.assertTrue(r.runNextAction()[0]==7);
+        Assert.assertTrue(r.runNextAction()[1]==0);
     }
     
     @Test
     public void testClockwise(){
-       Maze a = new Maze(m);
-       int[] chromosome = new int[128];
-       Robot r = new Robot(chromosome,a,100);
-       
-       int currentX=8;
-       int currentY=0;
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(0);
-       r.setNextAction(2);
-       r.runNextAction();
-       Assert.assertTrue(r.getHeadingDirString().equals("SOUTH")); 
-       
+        Maze a = new Maze(m);
+        int[] chromosome = new int[128];
+        Robot r = new Robot(chromosome,a,100);
 
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(1);
-       r.setNextAction(2);
-       r.runNextAction();
-       Assert.assertTrue(r.getHeadingDirString().equals("EAST"));
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(2);
-       r.setNextAction(2);
-       r.runNextAction();
-       Assert.assertTrue(r.getHeadingDirString().equals("WEST"));
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(3);
-       r.setNextAction(2);
-       r.runNextAction();
-       Assert.assertTrue(r.getHeadingDirString().equals("NORTH"));
+        int currentX=8;
+        int currentY=0;
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(0);
+        r.setNextAction(2);
+        r.runNextAction();
+        Assert.assertTrue(r.getHeadingDirString().equals("SOUTH")); 
+
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(1);
+        r.setNextAction(2);
+        r.runNextAction();
+        Assert.assertTrue(r.getHeadingDirString().equals("EAST"));
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(2);
+        r.setNextAction(2);
+        r.runNextAction();
+        Assert.assertTrue(r.getHeadingDirString().equals("WEST"));
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(3);
+        r.setNextAction(2);
+        r.runNextAction();
+        Assert.assertTrue(r.getHeadingDirString().equals("NORTH"));
     }
     
     
     @Test
     public void testAntiClockwise(){
-       Maze a = new Maze(m);
-       int[] chromosome = new int[128];
-       Robot r = new Robot(chromosome,a,100);
-       
-       int currentX=8;
-       int currentY=0;
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(0);
-       r.setNextAction(3);
-       r.runNextAction();
-       System.out.println(r.getHeadingDir());
-       Assert.assertTrue(r.getHeadingDirString().equals("NORTH"));
-       
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(1);
-       r.setNextAction(3);
-       r.runNextAction();
-       System.out.println(r.getHeadingDir());
-       Assert.assertTrue(r.getHeadingDirString().equals("WEST"));
-       
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(2);
-       r.setNextAction(3);
-       r.runNextAction();
-       System.out.println(r.getHeadingDir());
-       Assert.assertTrue(r.getHeadingDirString().equals("EAST"));
-       
-       
-       r.setPosition(currentX, currentY);
-       r.setHeadingDir(3);
-       r.setNextAction(3);
-       r.runNextAction();
-       System.out.println(r.getHeadingDir());
-       Assert.assertTrue(r.getHeadingDirString().equals("SOUTH"));
+        Maze a = new Maze(m);
+        int[] chromosome = new int[128];
+        Robot r = new Robot(chromosome,a,100);
+
+        int currentX=8;
+        int currentY=0;
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(0);
+        r.setNextAction(3);
+        r.runNextAction();
+//        System.out.println(r.getHeadingDir());
+        Assert.assertTrue(r.getHeadingDirString().equals("NORTH"));
+
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(1);
+        r.setNextAction(3);
+        r.runNextAction();
+//        System.out.println(r.getHeadingDir());
+        Assert.assertTrue(r.getHeadingDirString().equals("WEST"));
+
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(2);
+        r.setNextAction(3);
+        r.runNextAction();
+//        System.out.println(r.getHeadingDir());
+        Assert.assertTrue(r.getHeadingDirString().equals("EAST"));
+
+
+        r.setPosition(currentX, currentY);
+        r.setHeadingDir(3);
+        r.setNextAction(3);
+        r.runNextAction();
+//        System.out.println(r.getHeadingDir());
+        Assert.assertTrue(r.getHeadingDirString().equals("SOUTH"));
     }
 }

@@ -16,40 +16,31 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
-                          <Component id="maze1jButton" min="-2" pref="97" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="AnalysisBTn" min="-2" pref="97" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="maze3jButton" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
-                                  <Component id="maze2jButton" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="popuAnalysisBTn" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
+          <Group type="102" attributes="0">
+              <EmptySpace pref="209" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="maze2jButton" max="32767" attributes="0"/>
+                  <Component id="popuAnalysisBTn" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
+                  <Component id="crossoverAnalysisBTn" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
+                  <Component id="AnalysisBTn" alignment="0" max="32767" attributes="0"/>
+                  <Component id="maze3jButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="maze1jButton" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="188" max="32767" attributes="0"/>
+              <EmptySpace pref="209" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+              <EmptySpace pref="57" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Component id="maze1jButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Component id="maze2jButton" min="-2" max="-2" attributes="0"/>
@@ -57,9 +48,11 @@
               <Component id="maze3jButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Component id="AnalysisBTn" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Component id="popuAnalysisBTn" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="62" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+              <Component id="crossoverAnalysisBTn" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="57" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -75,7 +68,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="maze1jButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Maze1"/>
+        <Property name="text" type="java.lang.String" value="Maze1 Animation"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maze1jButtonActionPerformed"/>
@@ -83,7 +76,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="maze2jButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Maze2"/>
+        <Property name="text" type="java.lang.String" value="Maze2 Animation"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maze2jButtonActionPerformed"/>
@@ -91,7 +84,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="maze3jButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Maze3"/>
+        <Property name="text" type="java.lang.String" value="Maze3 Animation"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maze3jButtonActionPerformed"/>
@@ -107,10 +100,18 @@
     </Component>
     <Component class="javax.swing.JButton" name="popuAnalysisBTn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Analysis Population Size"/>
+        <Property name="text" type="java.lang.String" value="Analysize Population Size"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="popuAnalysisBTnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="crossoverAnalysisBTn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Analysize Crossover Rate"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="crossoverAnalysisBTnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
