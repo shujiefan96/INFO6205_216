@@ -272,6 +272,11 @@ public class AnalysisJPanel extends javax.swing.JPanel {
             return;
         }
         
+        if(tournamentSize >= populationSize || elitismSize >= populationSize){
+            JOptionPane.showMessageDialog(null, "Elitism Size and Tournament Size must less than Population Size!");
+            return;
+        }
+        
         ResultJPanel panel = new ResultJPanel(CardSequenceJPanel, maxGeneraions, times, mazeName, mazeSelected, populationSize,
                                               mutationRate, crossoverRate, elitismSize, tournamentSize);
         CardSequenceJPanel.add("ResultScreen", panel);

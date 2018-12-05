@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @author yangjing
  */
 public class RobotController {
-    long startTime, endTime, totalTime = 0;
+    long startTime, endTime, runTime = 0;
     int generationFound = 0;
     public static int maxGenerations;
     private int populationSize = 200;
@@ -22,6 +22,7 @@ public class RobotController {
     private double crossoverRate = 0.9;
     private int elitismSize = 2;
     private int tournamentSize = 10;
+    boolean routeFound = false;
 
     /**
      * Initalize RobotController
@@ -100,6 +101,7 @@ public class RobotController {
                     fittest.getRoute().get(fittest.getRoute().size() - 1)[0] == maze.getEndPosition()[0] &&
                     fittest.getRoute().get(fittest.getRoute().size() - 1)[1] == maze.getEndPosition()[1] &&
                     maze.getSteps() == fittest.getRoute().size()){
+                this.routeFound = true;
                 break;
             }
 
@@ -116,7 +118,7 @@ public class RobotController {
             generation++;
         }
         endTime = System.currentTimeMillis();
-        totalTime += endTime - startTime;
+        runTime += endTime - startTime;
         
         System.out.println("------------------------------------------------------------------------");
         if(generation < maxGenerations){
@@ -133,7 +135,7 @@ public class RobotController {
         System.out.println("Best Solution (" + fittest.getFitness() + "): " + fittest.toString());
         System.out.println("Best Route: " + this.printRoute(fittest.getRoute()));
         System.out.println("Actual Best Route: " + maze.getActualRoute());
-        System.out.println("Running Time: " + (endTime - startTime) + "ms");
+        System.out.println("Running Time: " + runTime + "ms");
         System.out.println("------------------------------------------------------------------------");
 
         return map;
@@ -154,32 +156,76 @@ public class RobotController {
         return routeString;
     }
     
-    public long getTotalTime(){
-        return this.totalTime;
+    /**
+     * Get running time
+     * 
+     * @return long Running time to find route 
+     */
+    public long getRunTime() {
+        return runTime;
     }
 
+    /**
+     * Get generations to find route
+     * 
+     * @return int Generations to find route 
+     */
     public int getGenerationFound() {
         return this.generationFound;
     }
 
+    /**
+     * Get population size for Genetic Algorithm
+     * 
+     * @return int Population size 
+     */
     public int getPopulationSize() {
         return populationSize;
     }
 
+    /**
+     * Get mutation rate for Genetic Algorithm
+     * 
+     * @return double Mutation Rate 
+     */
     public double getMutationRate() {
         return mutationRate;
     }
 
+    /**
+     * Get crossover rate for Genetic Algorithm
+     * 
+     * @return double Crossover rate 
+     */
     public double getCrossoverRate() {
         return crossoverRate;
     }
 
+    /**
+     * Get Elitism Size for Genetic Algorithm
+     * 
+     * @return int Elitism Size 
+     */
     public int getElitismSize() {
         return elitismSize;
     }
 
+    /**
+     * Get Tournament Size for Genetic Algorithm
+     * 
+     * @return int Tournament Size 
+     */
     public int getTournamentSize() {
         return tournamentSize;
+    }
+
+    /**
+     * Check if the best route has been found
+     * 
+     * @return boolean If found, return true, else, false 
+     */
+    public boolean isRouteFound() {
+        return routeFound;
     }
     
     
