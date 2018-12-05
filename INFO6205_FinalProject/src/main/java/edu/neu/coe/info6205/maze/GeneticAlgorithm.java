@@ -20,6 +20,15 @@ public class GeneticAlgorithm {
     private int tournamentSize;
     Random random = new Random();
 
+    /**
+     * Initalize GeneticAlgorithm
+     * 
+     * @param populationSize Genetic Algorithm Population Size
+     * @param mutationRate Genetic Algorithm Mutation Rate
+     * @param crossoverRate Genetic Algorithm Crossover Rate
+     * @param elitismSize Genetic Algorithm Elitism Size
+     * @param tournamentSize Genetic Algorithm Tournament Size
+     */ 
     public GeneticAlgorithm(int populationSize, double mutationRate, double crossoverRate, int elitismSize, int tournamentSize) {
         this.populationSize = populationSize;
         this.mutationRate = mutationRate;

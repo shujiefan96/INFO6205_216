@@ -6,6 +6,8 @@
 package edu.neu.coe.info6205.userInterface;
 
 import java.awt.CardLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -46,11 +48,16 @@ public class WelcomeJPanel extends javax.swing.JPanel {
             { 1, 0, 0, 0, 0, 1, 1, 3, 4 } 
     };
     private JPanel CardSequenceJPanel;
+    private HashMap<String, int[][]> maze = new HashMap<>();
     
         
     public WelcomeJPanel(JPanel CardSequenceJPanel) {
         initComponents();
         this.CardSequenceJPanel = CardSequenceJPanel;
+        
+        maze.put("maze1", maze1);
+        maze.put("maze2", maze2);
+        maze.put("maze3", maze3);
     }
 
     /**
@@ -66,6 +73,7 @@ public class WelcomeJPanel extends javax.swing.JPanel {
         maze1jButton = new javax.swing.JButton();
         maze2jButton = new javax.swing.JButton();
         maze3jButton = new javax.swing.JButton();
+        AnalysisBTn = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setText("Welcome to Maze Simulation");
@@ -91,6 +99,13 @@ public class WelcomeJPanel extends javax.swing.JPanel {
             }
         });
 
+        AnalysisBTn.setText("Analysis");
+        AnalysisBTn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnalysisBTnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,13 +115,18 @@ public class WelcomeJPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(maze3jButton)
-                            .addComponent(maze2jButton)
-                            .addComponent(maze1jButton))))
-                .addContainerGap(179, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(217, 217, 217)
+                            .addComponent(maze1jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(AnalysisBTn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(maze3jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(maze2jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,11 +135,13 @@ public class WelcomeJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(44, 44, 44)
                 .addComponent(maze1jButton)
-                .addGap(51, 51, 51)
+                .addGap(50, 50, 50)
                 .addComponent(maze2jButton)
-                .addGap(43, 43, 43)
+                .addGap(50, 50, 50)
                 .addComponent(maze3jButton)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(AnalysisBTn)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -148,8 +170,17 @@ public class WelcomeJPanel extends javax.swing.JPanel {
         cardlayout.next(CardSequenceJPanel);
     }//GEN-LAST:event_maze3jButtonActionPerformed
 
+    private void AnalysisBTnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnalysisBTnActionPerformed
+        // TODO add your handling code here:
+        AnalysisJPanel panel = new AnalysisJPanel(CardSequenceJPanel, maze);
+        CardSequenceJPanel.add("AnalysisScreen", panel);
+        CardLayout cardlayout = (CardLayout) CardSequenceJPanel.getLayout();
+        cardlayout.next(CardSequenceJPanel);
+    }//GEN-LAST:event_AnalysisBTnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AnalysisBTn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton maze1jButton;
     private javax.swing.JButton maze2jButton;

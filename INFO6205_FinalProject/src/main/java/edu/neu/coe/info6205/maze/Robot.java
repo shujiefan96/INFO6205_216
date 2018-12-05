@@ -111,6 +111,7 @@ public class Robot {
        
     /**
      * Set Robot Heading Direction
+     * @param a int
      */
     public void setHeadingDir(int a){  
         if(a == 0){

@@ -5,13 +5,11 @@
  */
 package edu.neu.coe.info6205.Robot;
 
-import apple.laf.JRSUIConstants;
 import edu.neu.coe.info6205.maze.GeneticAlgorithm;
 import edu.neu.coe.info6205.maze.Individual;
 import edu.neu.coe.info6205.maze.Maze;
 import edu.neu.coe.info6205.maze.Population;
 import edu.neu.coe.info6205.maze.Robot;
-import static edu.neu.coe.info6205.maze.RobotController.maxGenerations;
 import org.junit.Assert;
 import org.junit.Test;
 

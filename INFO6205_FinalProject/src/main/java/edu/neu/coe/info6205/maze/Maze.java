@@ -140,6 +140,7 @@ public class Maze {
     public int getRouteScore(ArrayList<int[]> route) {
         int score = 0;
         boolean visitedFlag[][] = new boolean[this.getMaxY() + 1][this.getMaxX() + 1];
+//        System.out.println("rrr: " + printRoute(route));
 
         // Loop over route and score each move
         for (int[] step : route) {
@@ -148,8 +149,15 @@ public class Maze {
                 score++;
                 // Remove reward
                 visitedFlag[step[1]][step[0]] = true;
+//                System.out.println("score++: " + step[0] + " " + step[1]);
+            }
+            if (this.getPositionValue(step[0], step[1]) == 0) {
+                // Increase score for correct move
+                score--;
+//                System.out.println("score--: " + step[0] + " " + step[1]);
             }
         }
+//        System.out.println("score: " + score);
 
         return score;
     }
@@ -192,5 +200,16 @@ public class Maze {
             }
         }       
         return routeString;
+    }
+    
+    
+    public String printRoute(ArrayList<int[]> route){
+        String routes = "";
+        
+        for (int[] routeStep : route) {
+            routes += "{" + routeStep[0] + "," + routeStep[1] + "}";
+        }
+        
+        return routes;
     }
 }

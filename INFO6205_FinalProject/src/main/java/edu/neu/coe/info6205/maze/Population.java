@@ -133,17 +133,4 @@ public class Population {
         return population[index];
     }
 
-    /**
-     * Shuffle the population in-place
-     * 
-     */
-//    public void shuffle() {
-//        Random rnd = new Random();
-//        for (int i = population.length - 1; i > 0; i--) {
-//            int index = rnd.nextInt(i + 1);
-//            Individual a = population[index];
-//            population[index] = population[i];
-//            population[i] = a;
-//        }
-//    }
 }
