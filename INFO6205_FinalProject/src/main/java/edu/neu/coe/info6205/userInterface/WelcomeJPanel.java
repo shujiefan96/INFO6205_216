@@ -5,10 +5,18 @@
  */
 package edu.neu.coe.info6205.userInterface;
 
+import edu.neu.coe.info6205.maze.RobotController;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -74,6 +82,7 @@ public class WelcomeJPanel extends javax.swing.JPanel {
         maze2jButton = new javax.swing.JButton();
         maze3jButton = new javax.swing.JButton();
         AnalysisBTn = new javax.swing.JButton();
+        popuAnalysisBTn = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setText("Welcome to Maze Simulation");
@@ -106,6 +115,13 @@ public class WelcomeJPanel extends javax.swing.JPanel {
             }
         });
 
+        popuAnalysisBTn.setText("Analysis Population Size");
+        popuAnalysisBTn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popuAnalysisBTnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,8 +141,9 @@ public class WelcomeJPanel extends javax.swing.JPanel {
                                 .addComponent(AnalysisBTn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(maze3jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(maze2jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(184, Short.MAX_VALUE))
+                                    .addComponent(maze2jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(popuAnalysisBTn, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +158,9 @@ public class WelcomeJPanel extends javax.swing.JPanel {
                 .addComponent(maze3jButton)
                 .addGap(50, 50, 50)
                 .addComponent(AnalysisBTn)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(popuAnalysisBTn)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -178,6 +197,50 @@ public class WelcomeJPanel extends javax.swing.JPanel {
         cardlayout.next(CardSequenceJPanel);
     }//GEN-LAST:event_AnalysisBTnActionPerformed
 
+    private void popuAnalysisBTnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popuAnalysisBTnActionPerformed
+        // TODO add your handling code here:
+        XYSeries series1 = new XYSeries("Analysis the Influence of Population Size"); 
+        int times = 1;
+        int populationSize = 200;
+        for(int size = 10; size < populationSize; size++){
+            RobotController r = new RobotController(1000, size, 0.05, 0.95, 2, 10);
+            int routeFoundCount = 0;
+            int totalTime = 0;
+            for(int g = 0; g < times; g++){
+                r.route(maze2);
+                if(r.isRouteFound()){
+                    routeFoundCount++;
+                    totalTime += r.getRunTime();
+                } 
+            } 
+            double aveTime = (double)totalTime/routeFoundCount;
+            series1.add(size, aveTime);
+        }
+        XYSeriesCollection dataset1 = new XYSeriesCollection();
+        dataset1.addSeries(series1);
+        String title = "Analysis the Influence of Population Size";
+        String xLabel = "Population Size";
+        paintLineChart(dataset1, title, xLabel);
+               
+    }//GEN-LAST:event_popuAnalysisBTnActionPerformed
+
+    public void paintLineChart(XYSeriesCollection dataset, String title, String xLabel){
+        JFreeChart chart1 = ChartFactory.createXYLineChart(
+                        title, // chart title
+                        xLabel, // x axis label
+                        "Average Running time", // y axis label
+                        dataset, // data
+                        PlotOrientation.VERTICAL,
+                        true, // include legend
+                        false, // tooltips
+                        false // urls
+                        );
+
+        ChartFrame frame1 = new ChartFrame("Random Array", chart1);
+        frame1.pack();
+        frame1.setVisible(true);
+//        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AnalysisBTn;
@@ -185,5 +248,6 @@ public class WelcomeJPanel extends javax.swing.JPanel {
     private javax.swing.JButton maze1jButton;
     private javax.swing.JButton maze2jButton;
     private javax.swing.JButton maze3jButton;
+    private javax.swing.JButton popuAnalysisBTn;
     // End of variables declaration//GEN-END:variables
 }

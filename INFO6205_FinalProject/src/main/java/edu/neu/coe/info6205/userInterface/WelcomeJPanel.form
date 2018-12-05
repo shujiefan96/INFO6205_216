@@ -35,11 +35,12 @@
                                   <Component id="maze3jButton" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
                                   <Component id="maze2jButton" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="popuAnalysisBTn" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="184" max="32767" attributes="0"/>
+              <EmptySpace pref="188" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,7 +57,9 @@
               <Component id="maze3jButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Component id="AnalysisBTn" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="57" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <Component id="popuAnalysisBTn" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="62" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -100,6 +103,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AnalysisBTnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="popuAnalysisBTn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Analysis Population Size"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="popuAnalysisBTnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

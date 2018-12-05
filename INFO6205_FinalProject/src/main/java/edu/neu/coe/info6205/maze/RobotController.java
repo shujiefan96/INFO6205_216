@@ -19,7 +19,7 @@ public class RobotController {
     public static int maxGenerations;
     private int populationSize = 200;
     private double mutationRate = 0.05;
-    private double crossoverRate = 0.9;
+    private double crossoverRate = 0.95;
     private int elitismSize = 2;
     private int tournamentSize = 10;
     boolean routeFound = false;
