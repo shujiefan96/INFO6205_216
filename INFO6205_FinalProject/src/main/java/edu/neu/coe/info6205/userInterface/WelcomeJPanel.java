@@ -205,9 +205,10 @@ public class WelcomeJPanel extends javax.swing.JPanel {
 
     private void popuAnalysisBTnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popuAnalysisBTnActionPerformed
         // TODO add your handling code here:
+        //analysis is based on maze2
         XYSeries series1 = new XYSeries("Analysis the Influence of Population Size"); 
-        int times = 100;
-        int populationSize = 500;
+        int times = 50;
+        int populationSize = 200;
         for(int size = 10; size < populationSize; size++){
             int routeFoundCount = 0;
             int totalTime = 0;
@@ -233,6 +234,7 @@ public class WelcomeJPanel extends javax.swing.JPanel {
 
     private void crossoverAnalysisBTnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crossoverAnalysisBTnActionPerformed
         // TODO add your handling code here:
+        //analysis is based on maze2
         XYSeries series1 = new XYSeries("Analysis the Influence of Crossover Rate");
         int times = 100;
         for(double crossover = 0; crossover <= 1; crossover += 0.01){
